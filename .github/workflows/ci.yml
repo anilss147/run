@@ -44,14 +44,11 @@ jobs:
       - name: Install Gradio (Frontend)
         run: |
           cd frontend
-          pip install gradio
-
-      # Gradio Debugging Section
-      - name: Install Gradio (Explicit)
-        run: |
-          cd frontend
+          source ../venv/bin/activate
+          pip install --upgrade pip
           pip install --no-cache-dir -r requirements.txt
           pip show gradio
+          pip show jinja2
           pip check
 
       - name: Print Gradio Version
@@ -100,6 +97,7 @@ jobs:
       # End Gradio Debugging Section
 
       - name: Verify Backend and Frontend
+        if: success() # add this if command
         run: |
           sleep 60 # Wait for services to start
           curl http://127.0.0.1:8000/docs
