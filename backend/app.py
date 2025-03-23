@@ -1,13 +1,12 @@
-
 from fastapi import FastAPI, Depends, HTTPException, UploadFile, File
 from fastapi.security import APIKeyHeader
 from pydantic import BaseModel
-import backend.stt as stt
-import backend.tts as tts
-import backend.chatbot as chatbot
-import backend.auth as auth
-import backend.config as config
-import backend.utils as utils
+import stt
+import tts
+import chatbot
+import auth
+import config
+import utils
 import os
 
 app = FastAPI()
