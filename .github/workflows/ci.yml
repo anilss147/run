@@ -46,13 +46,14 @@ jobs:
           cd frontend
           pip install gradio
 
+      # Gradio Debugging Section
+      - name: Check Gradio Version
+        run: pip show gradio
+
       - name: Start Gradio Frontend (Foreground Debug)
         run: |
           cd frontend
           python ui.py
-
-      - name: Check Gradio Version
-        run: pip show gradio
 
       - name: Create Virtual Environment
         run: |
@@ -66,41 +67,44 @@ jobs:
           cd frontend
           python ui.py
 
+      - name: Gradio Logs
+        run: cat frontend/gradio.log
+
+      - name: Check Gradio Process
+        run: ps aux | grep "python ui.py"
+
+      - name: Check Gradio Port
+        run: curl http://127.0.0.1:7860
+
+      # End Gradio Debugging Section
+
       - name: Verify Backend and Frontend
         run: |
           sleep 60 # Wait for services to start
           curl http://127.0.0.1:8000/docs
           curl http://127.0.0.1:7860
 
+      # Network Debugging Section
       - name: Minimal Network Test
-        run: curl -I https://1.1.1.1 # Add minimal network test
+        run: curl -I https://1.1.1.1
 
       - name: Check Network Connectivity (Debug)
         run: |
-          ping -c 3 google.com || true # Ignore ping errors
-          ping -c 3 8.8.8.8 || true # Ignore ping errors
-          ping -c 3 github.com || true # Ignore ping errors
+          ping -c 3 google.com || true
+          ping -c 3 8.8.8.8 || true
+          ping -c 3 github.com || true
           curl -I google.com
           curl -I github.com
           nslookup google.com
           echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
           nslookup google.com
-
-
-      
-      - name: Gradio Logs
-        run: cat frontend/gradio.log
-      
-      - name: Check Gradio Process
-        run: ps aux | grep "python ui.py"
-      
-      - name: Check Gradio Port
-        run: curl http://127.0.0.1:7860
+      # End Network Debugging Section
 
       - name: Docker Build (Optional)
         run: |
           docker build -t ai-call-assistant-pro .
 
+      # File System and Environment Debugging
       - name: List Files (Debug)
         run: ls -al
 
@@ -116,6 +120,7 @@ jobs:
       - name: Check frontend directory contents (Debug)
         run: ls -al frontend
 
+      # File Creation Steps
       - name: Create .env if not present
         run: test -f .env || touch .env
 
