@@ -32,10 +32,10 @@ jobs:
       - name: Check uvicorn
         run: uvicorn --version
 
-      - name: Start FastAPI Backend (Foreground Debug)
+      - name: Start FastAPI Backend
         run: |
           cd backend
-          uvicorn app:app --reload --host 0.0.0.0 --port 8000
+          uvicorn app:app --reload --host 0.0.0.0 --port 8000 > fastapi.log 2>&1 &
 
       - name: Print FastAPI Logs
         if: always()
