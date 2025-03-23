@@ -62,9 +62,9 @@ jobs:
 
       - name: Check Network Connectivity (Debug)
         run: |
-          ping -c 3 google.com
-          ping -c 3 8.8.8.8
-          ping -c 3 github.com
+          ping -c 3 google.com || true # Ignore ping errors
+          ping -c 3 8.8.8.8 || true # Ignore ping errors
+          ping -c 3 github.com || true # Ignore ping errors
           curl -I google.com
           curl -I github.com
           nslookup google.com
