@@ -49,18 +49,27 @@ jobs:
       # Gradio Debugging Section
       - name: Install Gradio (Explicit)
         run: |
-          pip install --no-cache-dir gradio
+          cd frontend
+          pip install --no-cache-dir -r requirements.txt
           pip show gradio
           pip check
 
+      - name: Print Gradio Version
+        run: python -c "import gradio; print(gradio.__version__)"
+
       - name: Python Version Check
         run: python --version
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgl1-mesa-glx libglib2.0-0
 
       - name: Create Virtual Environment
         run: |
           python -m venv venv
           source venv/bin/activate
-          pip install --no-cache-dir gradio
+          pip install --no-cache-dir -r frontend/requirements.txt
 
       - name: Run Minimal Gradio Test In Venv
         run: |
@@ -88,6 +97,11 @@ jobs:
       - name: Check System Logs
         run: |
           sudo journalctl -xe
+
+      - name: Monitor Resource Usage (Detailed)
+        run: |
+          top -b -n 5 | tee resource_usage.log
+          cat resource_usage.log
 
       # End Gradio Debugging Section
 
