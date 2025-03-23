@@ -50,19 +50,19 @@ jobs:
       - name: Check Gradio Version
         run: pip show gradio
 
-      - name: Start Gradio Frontend (Foreground Debug with Log)
+      - name: Start Gradio Frontend (Background with Log)
         run: |
           cd frontend
-          python ui.py > gradio.log 2>&1
+          python ui.py > gradio.log 2>&1 &
+
+      - name: Kill Gradio Process
+        run: pkill -f "python ui.py"
 
       - name: Gradio Logs
         run: cat frontend/gradio.log
 
       - name: Check Gradio Process
         run: ps aux | grep "python ui.py"
-
-      - name: Kill Gradio Process (After Background Start)
-        run: pkill -f "python ui.py"
 
       - name: Create Virtual Environment
         run: |
