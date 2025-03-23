@@ -1,0 +1,52 @@
+name: AI-Call-Assistant-Pro CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install Dependencies (Backend)
+        run: |
+          cd backend
+          pip install -r requirements.txt
+
+      - name: Start FastAPI Backend
+        run: |
+          cd backend
+          uvicorn app:app --reload --host 0.0.0.0 --port 8000 &
+
+      - name: Install Gradio (Frontend)
+        run: |
+          cd frontend
+          pip install gradio
+
+      - name: Start Gradio Frontend
+        run: |
+          cd frontend
+          python ui.py &
+
+      - name: Verify Backend and Frontend
+        run: |
+          sleep 10 # Wait for services to start
+          curl http://0.0.0.0:8000/docs #check that the api is up.
+          curl http://127.0.0.1:7860 # check that gradio is up.
+
+      - name: Docker Build (Optional)
+        run: |
+          docker build -t ai-call-assistant-pro .
