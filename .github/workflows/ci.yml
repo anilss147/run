@@ -60,10 +60,21 @@ jobs:
       - name: Python Version Check
         run: python --version
 
-      - name: Install System Dependencies
+      - name: Update Package Lists (Again)
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgl1-mesa-glx libglib2.0-0
+
+      - name: Search Mesa GLX Packages
+        run: |
+          sudo apt-cache search libgl1 mesa
+
+      - name: Install mesa-utils
+        run: |
+          sudo apt-get install -y mesa-utils
+
+      - name: Install libglx-mesa0
+        run: |
+          sudo apt-get install -y libglx-mesa0
 
       - name: Create Virtual Environment
         run: |
