@@ -50,10 +50,14 @@ jobs:
       - name: Check Gradio Version
         run: pip show gradio
 
+
       - name: Start Gradio Frontend (Background with Log)
         run: |
           cd frontend
           python ui.py > gradio.log 2>&1 &
+
+      - name: Delay Kill Gradio Process
+        run: sleep 15
 
       - name: Kill Gradio Process
         run: pkill -f "python ui.py"
@@ -68,6 +72,13 @@ jobs:
         run: |
           sleep 10
           curl http://127.0.0.1:7860
+
+      - name: Monitor Resource Usage
+        run: |
+          top -b -n 1 | head -n 20
+
+      - name: List Gradio Dependencies
+        run: pip freeze | grep gradio
 
       - name: Create Virtual Environment
         run: |
