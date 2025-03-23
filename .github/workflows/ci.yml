@@ -78,7 +78,7 @@ jobs:
       - name: Check Gradio Port
         run: |
           sleep 20
-          curl http://127.0.0.1:7860
+          curl http://127.0.0.1:7861
 
       - name: Check System Logs
         run: |
@@ -91,7 +91,7 @@ jobs:
 
       - name: Check Open Ports
         run: |
-          sudo netstat -tulpn | grep 7860
+          sudo netstat -tulpn | grep 7861
 
       - name: Check runner memory
         run: |
@@ -103,7 +103,7 @@ jobs:
         run: |
           sleep 60 # Wait for services to start
           curl http://127.0.0.1:8000/docs
-          curl http://127.0.0.1:7860
+          curl http://127.0.0.1:7861
 
       # Network Debugging Section
       - name: Minimal Network Test
