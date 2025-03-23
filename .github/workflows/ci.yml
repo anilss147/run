@@ -47,12 +47,24 @@ jobs:
           pip install gradio
 
       # Gradio Debugging Section
-      - name: Check Gradio Version
-        run: pip show gradio
-
-
-      - name: Start Gradio Frontend (Background with Log)
+      - name: Install Gradio (Explicit)
         run: |
+          pip install --no-cache-dir gradio
+          pip show gradio
+          pip check
+
+      - name: Python Version Check
+        run: python --version
+
+      - name: Create Virtual Environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --no-cache-dir gradio
+
+      - name: Run Minimal Gradio Test In Venv
+        run: |
+          source venv/bin/activate
           cd frontend
           python ui.py > gradio.log 2>&1 &
 
@@ -73,36 +85,9 @@ jobs:
           sleep 10
           curl http://127.0.0.1:7860
 
-      - name: Monitor Resource Usage
+      - name: Check System Logs
         run: |
-          top -b -n 1 | head -n 20
-
-      - name: List Gradio Dependencies
-        run: pip freeze | grep gradio
-
-      - name: Create Virtual Environment
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install gradio
-
-      - name: Run Minimal Gradio Test (Background)
-        run: |
-          source venv/bin/activate
-          cd frontend
-          python ui.py &
-
-      - name: Kill Minimal Gradio Test Process
-        run: pkill -f "python ui.py"
-
-      - name: Gradio Logs
-        run: cat frontend/gradio.log
-
-      - name: Check Gradio Process
-        run: ps aux | grep "python ui.py"
-
-      - name: Check Gradio Port
-        run: curl http://127.0.0.1:7860
+          sudo journalctl -xe
 
       # End Gradio Debugging Section
 
@@ -178,3 +163,4 @@ jobs:
 
       - name: Create .pylintrc if not present
         run: test -f .pylintrc || echo "# pylintrc file" > .pylintrc
+        
