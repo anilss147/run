@@ -46,11 +46,6 @@ jobs:
           cd frontend
           pip install gradio
 
-      - name: Start Gradio Frontend
-        run: |
-          cd frontend
-          python ui.py &
-
       - name: Verify Backend and Frontend
         run: |
           sleep 60 # Wait for services to start
@@ -71,8 +66,19 @@ jobs:
           echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
           nslookup google.com
 
+      - name: Start Gradio Frontend
+        run: |
+          cd frontend
+          python ui.py > gradio.log 2>&1 &
+      
       - name: Gradio Logs
-        run: cat gradio.log
+        run: cat frontend/gradio.log
+      
+      - name: Check Gradio Process
+        run: ps aux | grep "python ui.py"
+      
+      - name: Check Gradio Port
+        run: curl http://127.0.0.1:7860
 
       - name: Docker Build (Optional)
         run: |
