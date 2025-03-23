@@ -1,2 +1,2 @@
 # frontend/requirements.txt
-gradio==3.35.0
+gradio==2.9.0
