@@ -1,12 +1,20 @@
+# Use a base Python image
+FROM python:3.8-slim
 
-FROM python:3.10-slim
-
+# Set the working directory
 WORKDIR /app
 
-COPY backend/requirements.txt backend/
-RUN pip install --no-cache-dir -r backend/requirements.txt
+# Copy the requirements file
+COPY frontend/requirements.txt ./
 
-COPY backend/ .
-COPY frontend/ .
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["uvicorn", "backend.app:app", "--host", "0.0.0.0", "--port", "8000"]
+# Copy the application files
+COPY frontend/ui.py ./
+
+# Expose the Gradio port
+EXPOSE 7861
+
+# Run the Gradio application
+CMD ["python", "ui.py"]
