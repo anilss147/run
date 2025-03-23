@@ -1,2 +1,3 @@
 # frontend/requirements.txt
 gradio==2.9.0
+jinja2
