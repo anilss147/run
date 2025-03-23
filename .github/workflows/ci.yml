@@ -26,10 +26,17 @@ jobs:
           cd backend
           pip install -r requirements.txt
 
+      - name: Check uvicorn
+        run: uvicorn --version
+
       - name: Start FastAPI Backend
         run: |
           cd backend
-          uvicorn app:app --reload --host 0.0.0.0 --port 8000 &
+          uvicorn app:app --reload --host 0.0.0.0 --port 8000 > fastapi.log 2>&1 &
+
+      - name: Print FastAPI Logs
+        if: always()
+        run: cat backend/fastapi.log
 
       - name: Install Gradio (Frontend)
         run: |
@@ -43,10 +50,55 @@ jobs:
 
       - name: Verify Backend and Frontend
         run: |
-          sleep 10 # Wait for services to start
-          curl http://0.0.0.0:8000/docs #check that the api is up.
-          curl http://127.0.0.1:7860 # check that gradio is up.
+          sleep 20 # Wait for services to start
+          curl http://localhost:8000/docs
+          curl http://127.0.0.1:7860
 
       - name: Docker Build (Optional)
         run: |
           docker build -t ai-call-assistant-pro .
+
+      - name: List Files (Debug)
+        run: ls -al
+
+      - name: Check Python Version (Debug)
+        run: python --version
+
+      - name: Check pip version (Debug)
+        run: pip --version
+
+      - name: Check backend directory contents (Debug)
+        run: ls -al backend
+
+      - name: Check frontend directory contents (Debug)
+        run: ls -al frontend
+
+      - name: Create .env if not present
+        run: test -f .env || touch .env
+
+      - name: Create root requirements.txt if not present
+        run: test -f requirements.txt || echo "# Root requirements" > requirements.txt
+
+      - name: Create docker-compose.yml if not present
+        run: test -f docker-compose.yml || echo "# Docker compose file" > docker-compose.yml
+
+      - name: Create .dockerignore if not present
+        run: test -f .dockerignore || echo "# Docker ignore file" > .dockerignore
+
+      - name: Create setup.py if not present
+        run: test -f setup.py || echo "# setup.py file" > setup.py
+
+      - name: Create .gitattributes if not present
+        run: test -f .gitattributes || echo "# git attributes file" > .gitattributes
+
+      - name: Create .gitmodules if not present
+        run: test -f .gitmodules || echo "# git modules file" > .gitmodules
+
+      - name: Create .editorconfig if not present
+        run: test -f .editorconfig || echo "# editor config file" > .editorconfig
+
+      - name: Create .flake8 if not present
+        run: test -f .flake8 || echo "# flake8 file" > .flake8
+
+      - name: Create .pylintrc if not present
+        run: test -f .pylintrc || echo "# pylintrc file" > .pylintrc
