@@ -129,9 +129,11 @@ jobs:
           nslookup google.com
       # End Network Debugging Section
 
+      - name: List Files Before Docker Build # Added file listing step
+        run: ls -al
+
       - name: Docker Build (Optional)
-        run: |
-          docker build -t ai-call-assistant-pro .
+        run: docker build -t ai-call-assistant-pro .
 
       # File System and Environment Debugging
       - name: List Files (Debug)
