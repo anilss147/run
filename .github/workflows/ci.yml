@@ -52,7 +52,7 @@ jobs:
           cd frontend
           pwd
           ls -al ../venv/bin/
-          /bin/bash -c "source ../venv/bin/activate" # Try full bash path
+          /bin/bash -c "source ../venv/bin/activate"
           pip install --upgrade pip
           pip install --no-cache-dir -r requirements.txt
           pip show gradio
@@ -67,11 +67,16 @@ jobs:
       - name: Python Version Check
         run: python --version
 
-      - name: Run Gradio Foreground Debug
+      - name: Install Xvfb # Add this step for headless mode
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
+
+      - name: Run Gradio Foreground Debug # Update this step for headless mode
         run: |
           source venv/bin/activate
           cd frontend
-          python ui.py
+          xvfb-run -a python ui.py
 
       - name: Check Gradio Process
         run: ps aux | grep "python ui.py"
