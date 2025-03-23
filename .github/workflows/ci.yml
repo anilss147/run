@@ -58,7 +58,15 @@ jobs:
           curl http://127.0.0.1:7860
 
       - name: Check Network Connectivity (Debug)
-        run: ping -c 3 google.com
+        run: |
+          ping -c 3 google.com
+          ping -c 3 8.8.8.8
+          ping -c 3 github.com
+          curl -I google.com
+          curl -I github.com
+          nslookup google.com
+          echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
+          nslookup google.com
 
       - name: Gradio Logs
         run: cat gradio.log
