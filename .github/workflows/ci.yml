@@ -177,4 +177,3 @@ jobs:
 
       - name: Create .pylintrc if not present
         run: test -f .pylintrc || echo "# pylintrc file" > .pylintrc
-        
