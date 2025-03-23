@@ -1,11 +1,17 @@
 import gradio as gr
 import logging
 
-logging.basicConfig(filename='gradio.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-def chat(text):
-    logging.info(f"Received input: {text}")
-    return "UI Response: " + text
+logging.info("Starting Gradio application...")
 
-iface = gr.Interface(fn=chat, inputs="text", outputs="text")
+def greet(name):
+    logging.info(f"Received input: {name}")
+    return "Hello, " + name + "!"
+
+iface = gr.Interface(fn=greet, inputs="text", outputs="text")
+
+logging.info("Launching Gradio interface...")
 iface.launch()
+
+logging.info("Gradio application launched.")
