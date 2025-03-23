@@ -1,7 +1,10 @@
 import gradio as gr
 import logging
+import os
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+log_file_path = os.path.join(os.getcwd(), 'gradio.log') # Get current working directory.
+
+logging.basicConfig(filename=log_file_path, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 logging.info("Starting Gradio application...")
 
@@ -10,8 +13,4 @@ def greet(name):
     return "Hello, " + name + "!"
 
 iface = gr.Interface(fn=greet, inputs="text", outputs="text")
-
-logging.info("Launching Gradio interface...")
 iface.launch()
-
-logging.info("Gradio application launched.")
