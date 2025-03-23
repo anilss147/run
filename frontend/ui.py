@@ -1,6 +1,6 @@
+# frontend/ui.py
 import gradio as gr
 import logging
-import time
 import os
 
 # Configure logging
@@ -9,17 +9,8 @@ logging.basicConfig(filename=log_file_path, level=logging.INFO, format='%(asctim
 
 logging.info("Starting Gradio application...")
 
-def greet(name):
-    logging.info(f"Received input: {name}")
-    return "Hello, " + name + "!"
+print("Gradio launch initiated") # added print statement
 
-logging.info("Creating Gradio interface...")
-iface = gr.Interface(fn=greet, inputs="text", outputs="text")
-
-logging.info("Launching Gradio interface...")
-iface.launch(share=False, server_name="127.0.0.1", server_port=7860)
+gr.Interface(lambda x: x, "text", "text").launch(share=False, server_name="127.0.0.1", server_port=7861, debug=True)
 
 logging.info("Gradio application launched.")
-
-time.sleep(5)  # Add delay to ensure application is fully started.
-logging.info("Gradio application should be ready.")
