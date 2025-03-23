@@ -50,7 +50,7 @@ jobs:
       - name: Install Gradio (Frontend)
         run: |
           cd frontend
-          source ../venv/bin/activate # this is now venv/bin/activate
+          source venv/bin/activate # Corrected path
           pip install --upgrade pip
           pip install --no-cache-dir -r requirements.txt
           pip show gradio
@@ -100,7 +100,7 @@ jobs:
         if: success()
         run: |
           sleep 60 # Wait for services to start
-          curl http://127.0.0.1:8000/docs
+          curl http://127.0.0.0:8000/docs # corrected IP Address.
           curl http://127.0.0.1:7861
 
       # Network Debugging Section
