@@ -67,16 +67,17 @@ jobs:
       - name: Python Version Check
         run: python --version
 
-      - name: Install Xvfb # Add this step for headless mode
+      - name: Install Xvfb
         run: |
           sudo apt-get update
           sudo apt-get install -y xvfb
 
-      - name: Run Gradio Foreground Debug # Update this step for headless mode
+      - name: Run Gradio Foreground Debug
         run: |
           source venv/bin/activate
           cd frontend
-          xvfb-run -a python ui.py
+          xvfb-run -a python ui.py &
+          sleep 10
 
       - name: Check Gradio Process
         run: ps aux | grep "python ui.py"
