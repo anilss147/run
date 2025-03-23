@@ -97,7 +97,7 @@ jobs:
       # End Gradio Debugging Section
 
       - name: Verify Backend and Frontend
-        if: success() # add this if command
+        if: success()
         run: |
           sleep 60 # Wait for services to start
           curl http://127.0.0.1:8000/docs
