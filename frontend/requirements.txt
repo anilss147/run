@@ -1,2 +1,2 @@
-gradio==3.35.0
+gradio==3.25.0
 jinja2
