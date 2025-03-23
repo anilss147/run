@@ -1,1 +1,2 @@
-gradio==3.48.0 # Replace with your Gradio version
+# frontend/requirements.txt
+gradio==3.35.0
