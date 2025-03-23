@@ -46,6 +46,26 @@ jobs:
           cd frontend
           pip install gradio
 
+      - name: Start Gradio Frontend (Foreground Debug)
+        run: |
+          cd frontend
+          python ui.py
+
+      - name: Check Gradio Version
+        run: pip show gradio
+
+      - name: Create Virtual Environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install gradio
+
+      - name: Run Minimal Gradio Test
+        run: |
+          source venv/bin/activate
+          cd frontend
+          python ui.py
+
       - name: Verify Backend and Frontend
         run: |
           sleep 60 # Wait for services to start
@@ -66,10 +86,7 @@ jobs:
           echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
           nslookup google.com
 
-      - name: Start Gradio Frontend
-        run: |
-          cd frontend
-          python ui.py > gradio.log 2>&1 &
+
       
       - name: Gradio Logs
         run: cat frontend/gradio.log
