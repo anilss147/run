@@ -41,10 +41,16 @@ jobs:
         if: always()
         run: cat backend/fastapi.log
 
+      - name: Create Virtual Environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --no-cache-dir -r frontend/requirements.txt
+
       - name: Install Gradio (Frontend)
         run: |
           cd frontend
-          source ../venv/bin/activate
+          source ../venv/bin/activate # this is now venv/bin/activate
           pip install --upgrade pip
           pip install --no-cache-dir -r requirements.txt
           pip show gradio
@@ -56,12 +62,6 @@ jobs:
 
       - name: Python Version Check
         run: python --version
-
-      - name: Create Virtual Environment
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install --no-cache-dir -r frontend/requirements.txt
 
       - name: Run Gradio Foreground Debug
         run: |
