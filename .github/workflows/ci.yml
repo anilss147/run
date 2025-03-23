@@ -60,22 +60,6 @@ jobs:
       - name: Python Version Check
         run: python --version
 
-      - name: Update Package Lists (Again)
-        run: |
-          sudo apt-get update
-
-      - name: Search Mesa GLX Packages
-        run: |
-          sudo apt-cache search libgl1 mesa
-
-      - name: Install mesa-utils
-        run: |
-          sudo apt-get install -y mesa-utils
-
-      - name: Install libglx-mesa0
-        run: |
-          sudo apt-get install -y libglx-mesa0
-
       - name: Create Virtual Environment
         run: |
           python -m venv venv
@@ -102,7 +86,7 @@ jobs:
 
       - name: Check Gradio Port
         run: |
-          sleep 10
+          sleep 20
           curl http://127.0.0.1:7860
 
       - name: Check System Logs
