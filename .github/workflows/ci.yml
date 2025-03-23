@@ -64,6 +64,11 @@ jobs:
       - name: Check Gradio Process
         run: ps aux | grep "python ui.py"
 
+      - name: Check Gradio Port
+        run: |
+          sleep 10
+          curl http://127.0.0.1:7860
+
       - name: Create Virtual Environment
         run: |
           python -m venv venv
