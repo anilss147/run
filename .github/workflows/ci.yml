@@ -26,13 +26,16 @@ jobs:
           cd backend
           pip install -r requirements.txt
 
+      - name: List Installed Packages (Debug)
+        run: pip list
+
       - name: Check uvicorn
         run: uvicorn --version
 
-      - name: Start FastAPI Backend
+      - name: Start FastAPI Backend (Foreground Debug)
         run: |
           cd backend
-          uvicorn app:app --reload --host 0.0.0.0 --port 8000 > fastapi.log 2>&1 &
+          uvicorn app:app --reload --host 0.0.0.0 --port 8000
 
       - name: Print FastAPI Logs
         if: always()
@@ -50,9 +53,15 @@ jobs:
 
       - name: Verify Backend and Frontend
         run: |
-          sleep 20 # Wait for services to start
-          curl http://localhost:8000/docs
+          sleep 60 # Wait for services to start
+          curl http://127.0.0.1:8000/docs
           curl http://127.0.0.1:7860
+
+      - name: Check Network Connectivity (Debug)
+        run: ping -c 3 google.com
+
+      - name: Gradio Logs
+        run: cat gradio.log
 
       - name: Docker Build (Optional)
         run: |
