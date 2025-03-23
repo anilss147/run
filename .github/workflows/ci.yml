@@ -41,7 +41,7 @@ jobs:
         if: always()
         run: cat backend/fastapi.log
 
-      - name: Create Virtual Environment #Moved up
+      - name: Create Virtual Environment
         run: |
           python -m venv venv
           source venv/bin/activate
@@ -52,7 +52,7 @@ jobs:
           cd frontend
           pwd
           ls -al ../venv/bin/
-          source ../venv/bin/activate # Corrected path
+          source ../venv/bin/activate
           pip install --upgrade pip
           pip install --no-cache-dir -r requirements.txt
           pip show gradio
@@ -60,7 +60,9 @@ jobs:
           pip check
 
       - name: Print Gradio Version
-        run: python -c "import gradio; print(gradio.__version__)"
+        run: |
+          source venv/bin/activate # activate venv
+          python -c "import gradio; print(gradio.__version__)"
 
       - name: Python Version Check
         run: python --version
