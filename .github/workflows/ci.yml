@@ -52,7 +52,7 @@ jobs:
           cd frontend
           pwd
           ls -al ../venv/bin/
-          source ../venv/bin/activate
+          source venv/bin/activate
           pip install --upgrade pip
           pip install --no-cache-dir -r requirements.txt
           pip show gradio
@@ -61,7 +61,7 @@ jobs:
 
       - name: Print Gradio Version
         run: |
-          source venv/bin/activate # activate venv
+          source venv/bin/activate
           python -c "import gradio; print(gradio.__version__)"
 
       - name: Python Version Check
