@@ -52,7 +52,7 @@ jobs:
           cd frontend
           pwd
           ls -al ../venv/bin/
-          source venv/bin/activate
+          /bin/bash -c "source ../venv/bin/activate" # Try full bash path
           pip install --upgrade pip
           pip install --no-cache-dir -r requirements.txt
           pip show gradio
