@@ -55,7 +55,7 @@ jobs:
           cd frontend
           python ui.py &
 
-      - name: Kill Gradio Process
+      - name: Kill Gradio Process (After Background Start)
         run: pkill -f "python ui.py"
 
       - name: Create Virtual Environment
@@ -64,11 +64,14 @@ jobs:
           source venv/bin/activate
           pip install gradio
 
-      - name: Run Minimal Gradio Test
+      - name: Run Minimal Gradio Test (Background)
         run: |
           source venv/bin/activate
           cd frontend
-          python ui.py
+          python ui.py &
+
+      - name: Kill Minimal Gradio Test Process
+        run: pkill -f "python ui.py"
 
       - name: Gradio Logs
         run: cat frontend/gradio.log
