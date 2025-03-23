@@ -1,8 +1,8 @@
-# frontend/ui.py
 import gradio as gr
 import logging
 import time
 import os
+import pandas as pd
 
 # Configure logging
 log_file_path = os.path.join(os.getcwd(), 'gradio.log')
@@ -10,12 +10,26 @@ logging.basicConfig(filename=log_file_path, level=logging.INFO, format='%(asctim
 
 logging.info("Starting Gradio application...")
 
-def identity(x):
-    logging.info(f"Received input: {x}")
-    return x
+def process_data(name):
+    logging.info(f"Processing data for: {name}")
+    try:
+        df = pd.read_csv("data/data.csv")
+        result = df[df["name"] == name].to_string()
+        return result
+    except FileNotFoundError:
+        return "Data file not found."
 
 logging.info("Creating Gradio interface...")
-iface = gr.Interface(fn=identity, inputs="text", outputs="text")
+iface = gr.Interface(
+    fn=process_data,
+    inputs="text",
+    outputs="text",
+    title="Data Processor",
+    description="Enter a name to retrieve data.",
+    examples=["John", "Jane", "Bob"],
+    css="static/style.css",
+    thumbnail="images/logo.png"
+)
 
 logging.info("Launching Gradio interface...")
 iface.launch(share=False, server_name="127.0.0.1", server_port=7860)
